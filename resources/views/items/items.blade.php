@@ -9,13 +9,17 @@
                         </div>
                         <div class="panel-body">
                             @if ($item->id)
-                                <p class="item-title"><a href="{{ route('items.show', $item->id) }}">{{ $item->name }}</a></p>
+                                <p class="item-title"><a href="{{ route('items.show', $item->id) }}">{{ str_limit($item->name, 50, '...') }}</a></p>
                             @else
-                                <p class="item-title">{{ $item->name }}</p>
+                                <p class="item-title">{{ str_limit($item->name, 50, '...') }}</p>
                             @endif
                             <div class="buttons text-center">
                                 @if (Auth::check())
                                     @include('items.want_button', ['item' => $item])
+                                @endif
+
+                                @if (Auth::check())
+                                    @include('items.have_button', ['item' => $item])
                                 @endif
                             </div>
                         </div>

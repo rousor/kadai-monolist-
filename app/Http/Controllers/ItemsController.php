@@ -26,7 +26,7 @@ class ItemsController extends Controller
           foreach ($rws_response->getData()['Items'] as $rws_item) {
               $item = new Item();
               $item->code = $rws_item['Item']['itemCode'];
-              $item->name = $rws_item['Item']['itemName'];
+              $item->name = str_limit($rws_item['Item']['itemName'], $limit = 50, $end = '...');
               $item->url = $rws_item['Item']['itemUrl'];
               $item->image_url = str_replace('?_ex=128x128', '', $rws_item['Item']['mediumImageUrls'][0]['imageUrl']);
               $items[] = $item;
@@ -43,10 +43,12 @@ class ItemsController extends Controller
   {
       $item = Item::find($id);
       $want_users = $item->want_users;
+      $have_users = $item->have_users; //*
 
       return view('items.show', [
           'item' => $item,
           'want_users' => $want_users,
+          'have_users' => $have_users, //*
       ]);
   }
 }
